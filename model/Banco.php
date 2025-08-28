@@ -2,7 +2,7 @@
 class Banco {
     private $host = "localhost";
     private $dbname = "bancocrud";
-    private $usuario = "ec2-user@ip-172-31-37-112";
+    private $usuario = "ec2-user";
     private $senha = "ifsp";
     public $conexao;
 
