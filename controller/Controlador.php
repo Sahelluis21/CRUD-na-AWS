@@ -1,9 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-
 require_once __DIR__ . "/../model/ClienteDAO.php";
 require_once __DIR__ . "/../model/Cliente.php";
 
@@ -30,7 +25,21 @@ class Controlador {
                     include __DIR__ . "/../view/Gravar.php";
                 }
                 break;
+            case 'salvar':
+                $nome  = $_POST['nome'] ?? '';
+                $email = $_POST['email'] ?? '';
 
+                if ($nome && $email) {
+                    $cliente = new Cliente(null, $nome, $email);
+                    $this->clienteDAO->inserir($cliente);
+                    echo "Cliente adicionado com sucesso!";
+                } else {
+                    echo "Preencha todos os campos!";
+                }
+
+                echo '<br><a href="index.php?acao=listar">Voltar à lista</a>';
+                break;
+    
             case 'alterar':
                 $id = $_GET['id'];
                 $cliente = $this->clienteDAO->buscarPorId($id);
