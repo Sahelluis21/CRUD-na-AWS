@@ -1,5 +1,11 @@
 <?php
-require_once "../model/ClienteDAO.php";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+require_once __DIR__ . "/../model/ClienteDAO.php";
+require_once __DIR__ . "/../model/Cliente.php";
 
 class Controlador {
     private $clienteDAO;
@@ -12,17 +18,19 @@ class Controlador {
         switch($acao) {
             case 'listar':
                 $clientes = $this->clienteDAO->listar();
-                include "../view/Listar.php";
+                include __DIR__ . "/../view/Listar.php";
                 break;
+
             case 'gravar':
                 if($_POST) {
                     $cliente = new Cliente(null, $_POST['nome'], $_POST['email']);
                     $this->clienteDAO->inserir($cliente);
                     header("Location: index.php?acao=listar");
                 } else {
-                    include "../view/Gravar.php";
+                    include __DIR__ . "/../view/Gravar.php";
                 }
                 break;
+
             case 'alterar':
                 $id = $_GET['id'];
                 $cliente = $this->clienteDAO->buscarPorId($id);
@@ -32,14 +40,16 @@ class Controlador {
                     $this->clienteDAO->atualizar($cliente);
                     header("Location: index.php?acao=listar");
                 } else {
-                    include "../view/Alterar.php";
+                    include __DIR__ . "/../view/Alterar.php";
                 }
                 break;
+
             case 'remover':
                 $id = $_GET['id'];
                 $this->clienteDAO->remover($id);
                 header("Location: index.php?acao=listar");
                 break;
+
             default:
                 header("Location: index.php?acao=listar");
         }

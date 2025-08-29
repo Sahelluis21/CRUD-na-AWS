@@ -1,5 +1,12 @@
 <?php
-require_once "../model/Banco.php"; // Certifique-se de que o caminho está correto
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once __DIR__ . "/../model/Banco.php";
+require_once __DIR__ . "/../model/Cliente.php";
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = $_POST['nome'];

@@ -2,6 +2,11 @@
 require_once "Banco.php";
 require_once "Cliente.php";
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 class ClienteDAO {
     private $conexao;
 
@@ -12,7 +17,14 @@ class ClienteDAO {
     public function listar() {
         $stmt = $this->conexao->prepare("SELECT * FROM clientes");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $clientes = [];
+        foreach($dados as $d) {
+            $clientes[] = new Cliente($d['id'], $d['nome'], $d['email']);
+        }
+
+        return $clientes;
     }
 
     public function buscarPorId($id) {
