@@ -10,57 +10,46 @@ class Controlador {
     }
 
     public function executar($acao) {
-        switch($acao) {
+        switch ($acao) {
             case 'listar':
                 $clientes = $this->clienteDAO->listar();
-                include __DIR__ . "/../view/Listar.php";
+                $viewFile = "view/Listar.php";
+                include "view/template.php";
+                break;
+
+            case 'formAdicionar':
+                $viewFile = "view/Gravar.php";
+                include "view/template.php";
                 break;
 
             case 'gravar':
-                if($_POST) {
-                    $cliente = new Cliente(null, $_POST['nome'], $_POST['email']);
-                    $this->clienteDAO->inserir($cliente);
-                    header("Location: index.php?acao=listar");
-                } else {
-                    include __DIR__ . "/../view/Gravar.php";
-                }
-                break;
-            case 'salvar':
-                $nome  = $_POST['nome'] ?? '';
-                $email = $_POST['email'] ?? '';
-
-                if ($nome && $email) {
-                    $cliente = new Cliente(null, $nome, $email);
-                    $this->clienteDAO->inserir($cliente);
-                    echo "Cliente adicionado com sucesso!";
-                } else {
-                    echo "Preencha todos os campos!";
-                }
-
-                echo '<br><a href="index.php?acao=listar">Voltar à lista</a>';
-                break;
-    
-            case 'alterar':
-                $id = $_GET['id'];
-                $cliente = $this->clienteDAO->buscarPorId($id);
-                if($_POST) {
-                    $cliente->setNome($_POST['nome']);
-                    $cliente->setEmail($_POST['email']);
-                    $this->clienteDAO->atualizar($cliente);
-                    header("Location: index.php?acao=listar");
-                } else {
-                    include __DIR__ . "/../view/Alterar.php";
-                }
+                $cliente = new Cliente(null, $_POST['nome'], $_POST['email']);
+                $this->clienteDAO->inserir($cliente);
+                header("Location: index.php?acao=listar");
                 break;
 
             case 'remover':
-                $id = $_GET['id'];
-                $this->clienteDAO->remover($id);
+                $this->clienteDAO->remover($_GET['id']);
+                header("Location: index.php?acao=listar");
+                break;
+
+            case 'formAlterar':
+                $cliente = $this->clienteDAO->buscarPorId($_GET['id']);
+                $viewFile = "view/Alterar.php";
+                include "view/template.php";
+                break;
+
+            case 'atualizar':
+                $cliente = new Cliente($_POST['id'], $_POST['nome'], $_POST['email']);
+                $this->clienteDAO->atualizar($cliente);
                 header("Location: index.php?acao=listar");
                 break;
 
             default:
-                header("Location: index.php?acao=listar");
+                $clientes = $this->clienteDAO->listar();
+                $viewFile = "view/Listar.php";
+                include "view/template.php";
+                break;
         }
     }
 }

@@ -2,24 +2,28 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Minha Aplicação</title>
-    <link rel="stylesheet" href="public/css/style.css">
+    <title>Sistema de Clientes</title>
+   <link rel="stylesheet" href="/CRUD-na-AWS/public/css/style.css">
+ <!-- se tiver CSS -->
 </head>
 <body>
     <header>
-        <h1>📂 Sistema de Clientes</h1>
+        <h1>Gerenciamento de Clientes</h1>
         <nav>
-            <a href="index.php?acao=adicionar">Adicionar Cliente</a>
+            <a href="index.php?acao=listar">Listar</a>
+            <a href="index.php?acao=formAdicionar">Adicionar Cliente</a>
         </nav>
     </header>
 
     <main>
-        <?php include $pagina; ?> 
-        <!-- aqui entra a view de verdade -->
+        <?php include $viewFile; ?> 
+        <!-- Aqui entram as views dinâmicas -->
     </main>
 
     <footer>
-        <p>© <?= date('Y') ?> - Meu Sistema MVC</p>
+        <p>&copy; <?= date("Y"); ?> - Minha Aplicação</p>
     </footer>
 </body>
 </html>
+
+
